@@ -15,7 +15,7 @@ QQ、DHCP协议、DNS协议基于UDP
 - 67/68:dhcp
 - 80:http
 - 443:https
-- 4000/8000:qq
+- 4000/8000:qq    oicq
 
 DHCP(Dynamic Configuration Protocol)动态主机配置协议，用于动态配置IP信息（地址、网关、DNS等）
 

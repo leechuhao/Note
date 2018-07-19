@@ -7,7 +7,7 @@
 
 telnet远程登录
 
-![1531666691866](C:\Users\brain\AppData\Local\Temp\1531666691866.png)
+![](1531666691866.png)
 
 ### 三次握手：
 
@@ -15,7 +15,7 @@ telnet远程登录
 2. 服务端收到后，回发ACK+SYN
 3. 客户端发送ACK
 
-![1531666718468](C:\Users\brain\AppData\Local\Temp\1531666718468.png)
+![](1531666718468.png)
 
 ### 四次挥手：
 

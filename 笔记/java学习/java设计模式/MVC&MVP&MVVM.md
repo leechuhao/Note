@@ -6,7 +6,7 @@ V：View，专注页面布局和数据显示
 
 C：Controller， 翻译用户的输入，操作模型和视图
 
-![](C:\Users\brain\Desktop\笔记\java学习\MVC.png)
+![MVC](MVC.png)
 
 缺点：
 
@@ -16,11 +16,11 @@ C：Controller， 翻译用户的输入，操作模型和视图
 
 **MVP**
 
-![](C:\Users\brain\Desktop\笔记\java学习\MVP.png)
+![MVP](MVP.png)
 
 但是Presenter还是对View有依赖，然后出现MVP2.0
 
-![](C:\Users\brain\Desktop\笔记\java学习\MVP2.png)
+![](MVP2.png)
 
 **MVVM**
 
@@ -28,5 +28,5 @@ C：Controller， 翻译用户的输入，操作模型和视图
 
 ViewModel：与View绑定
 
-![](C:\Users\brain\Desktop\笔记\java学习\MVVM.png)
+![](MVVM.png)
 

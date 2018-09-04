@@ -2,7 +2,9 @@
 typora-copy-images-to: ./
 ---
 
-SSM框架是包含spring MVC，spring和 mybatis 框架的整合，标准的MVC模式。将系统分为：View层、controller层、service层和DAO层。
+SSM框架是包含spring MVC，spring和 mybatis 框架的整合，标准的MVC模式。
+
+将系统分为：View层、controller层、service层和DAO层。
 
 spring MVC：请求的转发和视图管理
 

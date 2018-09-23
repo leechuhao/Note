@@ -18,7 +18,7 @@ cookie机制采用的是在客户端保持状态的方案
 
 #### 工作原理
 
-1. 创建cookie
+1. ##### 创建cookie
 
 - 当用户第一次浏览网站，**服务器**进行以下工作
 - 生成唯一的一个识别码（cookie id），创建一个cookie对象；
@@ -26,15 +26,15 @@ cookie机制采用的是在客户端保持状态的方案
 - cookie放入http响应报头，将cookie插入到Set-Cookie HTTP请求报头中。
 - 发送HTTP响应报文。
 
-2. 设置储存cookie
+2. ##### 设置储存cookie
 
 浏览器收到响应报文，会根据Set-Cookie的指示，生成相应的cookie，保存在客户端，该cookie记录着用户当前的信息。
 
-3. 发送cookie
+3. ##### 发送cookie
 
 再次访问该网站，会首先检查储存的cookies，如果存在该网站的cookie（即cookie所声明的作用范围大于等于将要请求的资源），则把该cookie放在请求资源的http报文请求头上发送给服务器。
 
-4. 读取cookie
+4. ##### 读取cookie
 
 服务器接受到请求报文，从报文头部获取用户的cookie。
 

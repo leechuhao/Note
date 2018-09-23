@@ -1,4 +1,5 @@
 ---
+
 typora-copy-images-to: ./
 ---
 
@@ -214,5 +215,17 @@ select * from table where id >= #minId# and xxx in (1,2,3) limit 200
 select * from orders_history where id in
 (select order_id from trade_2 where goods = 'pen')
 limit 100;
+```
+
+#实际操作
+
+
+```
+$> /etc/my.cnf
+skip-grant-tables=1 //可以不用权限就可以封路
+修改密码经常失败，需要将原来的账户删除，重新创建，刷新权限
+mysql>flush privileges;
+mysql>ALTER USER 'root'@'localhost'IDENTIFIED BY '********'
+mysql>update user set authentication_string=password('root') where user='root' ;
 ```
 

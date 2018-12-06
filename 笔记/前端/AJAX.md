@@ -3,11 +3,11 @@
 ```
 var xmlhttp;
 if(window.XMLHttpRequest){
-//如果支持XMLHttpRequest对象
-xmlhttp = new XMLHttpRequest();
+    //如果支持XMLHttpRequest对象
+    xmlhttp = new XMLHttpRequest();
 }else{
-// 创建ActiveX对象
-xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    // 创建ActiveX对象
+    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 }
 ```
 

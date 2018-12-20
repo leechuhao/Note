@@ -1,5 +1,5 @@
 ---
-typora-copy-images-to: ./
+typora-root-url: ..\images
 ---
 
 # [Maven](http://tengj.top/2018/01/01/maven/)

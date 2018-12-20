@@ -1,5 +1,6 @@
 ---
 typora-copy-images-to: ./
+typora-root-url: ..\images
 ---
 
 SSM框架是包含spring MVC，spring和 mybatis 框架的整合，标准的MVC模式。

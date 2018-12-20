@@ -1,3 +1,7 @@
+---
+typora-root-url: ..\images
+---
+
 ### TCP（Trajnsmission Control Potocol）传输控制协议
 
 1. 面向连接（三次握手、四次挥手）

@@ -53,7 +53,7 @@ mysql> SHOW TABLE STATUS from W3CSCHOOL LIKE 'W3Cschool%'\G;   # 加上 \G，查
 - **LEFT JOIN（左连接）：**获取左表所有记录，即使右表没有对应匹配的记录。
 - **RIGHT JOIN（右连接）：** 与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录。
 
-![1533549924222](1533549924222.png)
+![1533549924222](./../../images/1533549924222.png)
 
 
 

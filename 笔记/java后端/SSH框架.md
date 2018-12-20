@@ -1,5 +1,6 @@
 ---
 typora-copy-images-to: ./
+typora-root-url: ..\images
 ---
 
 关于SSH框架： SSH框架则是Struts2，Spring和Hibernate框架的整合，其中Struts2 做控制器(controller)，spring 管理各层的组件，hibernate 负责持久化层。 

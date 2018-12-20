@@ -1,5 +1,6 @@
 ---
 typora-copy-images-to: ./
+typora-root-url: ..\images
 ---
 
 [速查列表](https://www.w3cschool.cn/html/html-quicklist.html)
@@ -24,7 +25,6 @@ HTML（**h**yper **t**ext **m**arkup **l**anguage）
 ```
 
 <!doctype html>标签在HTML5中也有使用，表示文档类型 不区分大小写
-
 -----
 
 ### 网页基本结构

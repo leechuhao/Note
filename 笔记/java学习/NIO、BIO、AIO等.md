@@ -1,5 +1,6 @@
 ---
 typora-copy-images-to: ./
+typora-root-url: ..\images
 ---
 
 #### 区分网络IO与磁盘IO
@@ -9,6 +10,8 @@ typora-copy-images-to: ./
 所以现如今讨论的IO优化多是网络IO。
 
 ### BIO（Blocking IO）
+
+![img](640.png)
 
 在类似于网络中进行read, write, connect一类的系统调用时会被卡住。
 
@@ -32,6 +35,8 @@ typora-copy-images-to: ./
 2. 停顿时间设置，不合理的停顿时间会影响系统性能。
 
 ##### IO多路复用
+
+![img](640)
 
 多个socket共用线程，监听每个socket的事件，使用select进行选择
 

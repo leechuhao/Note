@@ -1,5 +1,6 @@
 ---
 typora-copy-images-to: ./
+typora-root-url: ..\images
 ---
 
 ### JVM内存结构

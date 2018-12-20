@@ -1,5 +1,6 @@
 ---
 typora-copy-images-to: ./
+typora-root-url: ..\images
 ---
 
 ## [CSS](http://www.w3school.com.cn/css/css_jianjie.asp)

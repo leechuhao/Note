@@ -50,8 +50,8 @@ mysql> SHOW TABLE STATUS from W3CSCHOOL LIKE 'W3Cschool%'\G;   # 加上 \G，查
 ##### 连接：
 
 - **INNER JOIN（内连接,或等值连接）**：获取两个表中字段匹配关系的记录。
-- **LEFT JOIN（左连接）：**获取左表所有记录，即使右表没有对应匹配的记录。
-- **RIGHT JOIN（右连接）：** 与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录。
+- **LEFT JOIN（左连接）**：获取左表所有记录，即使右表没有对应匹配的记录。
+- **RIGHT JOIN（右连接）**： 与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录。
 
 ![1533549924222](./../../images/1533549924222.png)
 
@@ -61,10 +61,10 @@ mysql> SHOW TABLE STATUS from W3CSCHOOL LIKE 'W3Cschool%'\G;   # 加上 \G，查
 
 事务是必须满足4个条件（ACID）： Atomicity（原子性）、Consistency（稳定性）、Isolation（隔离性）、Durability（可靠性）
 
-- **事务的原子性：**一组事务，要么成功；要么撤回。
+- **事务的原子性**：一组事务，要么成功；要么撤回。
 - **稳定性** ： 有非法数据（外键约束之类），事务撤回。
-- **隔离性：**事务独立运行。一个事务处理后的结果，影响了其他事务，那么其他事务会撤回。事务的100%隔离，需要牺牲速度。
-- **可靠性：**软、硬件崩溃后，InnoDB数据表驱动会利用日志文件重构修改。可靠性和高速度不可兼得， innodb_flush_log_at_trx_commit选项 决定什么时候把事务保存到日志里。
+- **隔离性**：事务独立运行。一个事务处理后的结果，影响了其他事务，那么其他事务会撤回。事务的100%隔离，需要牺牲速度。
+- **可靠性**：软、硬件崩溃后，InnoDB数据表驱动会利用日志文件重构修改。可靠性和高速度不可兼得， innodb_flush_log_at_trx_commit选项 决定什么时候把事务保存到日志里。
 
 ### 索引
 
@@ -222,7 +222,7 @@ limit 100;
 
 ```
 $> /etc/my.cnf
-skip-grant-tables=1 //可以不用权限就可以封路
+skip-grant-tables=1 //可以不用权限就可以登录
 修改密码经常失败，需要将原来的账户删除，重新创建，刷新权限
 mysql>flush privileges;
 mysql>ALTER USER 'root'@'localhost'IDENTIFIED BY '********'

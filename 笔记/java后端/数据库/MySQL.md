@@ -90,7 +90,7 @@ create table table1 as select  * from table2  where 1=2;
 - 创建一个表结构与table2一模一样的表,复制结构同时也复制数据； 
 
 ```
-create  table table1  as  select *   from table2  ; 
+create  table table1  as  select * from table2  ; 
 ```
 
 - 创建一个表结构与table2一模一样的表,复制结构同时也复制数据,但是指定新表的列名；

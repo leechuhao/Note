@@ -1,6 +1,6 @@
 ---
 typora-copy-images-to: ./
-typora-root-url: ..\images
+typora-root-url: ..\..\images
 ---
 
 #### 区分网络IO与磁盘IO

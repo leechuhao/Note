@@ -34,7 +34,7 @@ DisposableBean：销毁Bean的相关资源
    4. session
    5. global session
 
-   ![img](/images/242025553_1552555606893_F700E1D9126F56CAD8981C82A6A243D0)
+   ![img](../images/242025553_1552555606893_F700E1D9126F56CAD8981C82A6A243D0)
 
 4. ### 什么是IOC
 

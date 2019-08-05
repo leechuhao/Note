@@ -9,7 +9,7 @@ http://central.maven.org/maven2/org/mybatis/mybatis/3.4.6/mybatis-3.4.6.jar
   <groupId>org.mybatis</groupId>
   <artifactId>mybatis</artifactId>
   <version>x.x.x</version>
-5</dependency>
+</dependency>
 ```
 
 ### 配置
@@ -26,6 +26,7 @@ http://central.maven.org/maven2/org/mybatis/mybatis/3.4.6/mybatis-3.4.6.jar
          <property name="driver" value="com.mysql.cj.jdbc.Driver"></property>
          <property name="url" value="jdbc:mysql://rm-wz9b714vle01fg8ijmo.mysql.rds.aliyuncs.com/change_hair"></property>
     </properties>
+    
     <!--定义不同环境下的配置，便于区分生产、测试等环节的配置-->
     <environments default="development">
        <!--定义一个环境下的配置-->

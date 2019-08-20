@@ -8,6 +8,8 @@
 
 ConcurrentHashMap基于concurrentLevel划分出了多个Segment来对key-value进行存储，从而避免每次锁定整个数组，在默认的情况下，允许16个线程并发无阻塞的操作集合对象，尽可能地减少并发时的阻塞现象。
 
+在1.8版本中，ConcurrentHashMap使用了原始的数组+链表（链表大于8变为红黑树）的形式，使用**CAS+synchronized**对节点进行锁定，锁的颗粒度可以细化到红黑树的根节点
+
 HashMap中Value可以相同，但是键不可以相同
 
 ## HashMap

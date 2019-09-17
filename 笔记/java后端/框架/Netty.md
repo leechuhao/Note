@@ -28,13 +28,13 @@ int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
 
 ### IO模型
 
-![img](/641.png)
+![img](../../images/641.png)
 
 在I/O复用模型中，会用到select，这个函数也会使进程阻塞，但是和阻塞I/O所不同的的，这两个函数可以同时阻塞多个I/O操作，而且可以同时对多个读操作，多个写操作的I/O函数进行检测，直到有数据可读或可写时，才真正调用I/O操作函数.
 
 #### Netty使用的IO模型
 
-![img](/642.png)
+![img](../../images/642.png)
 
 ### Reactor线程模型
 
@@ -52,7 +52,7 @@ Reactor指的是服务器处理请求时，将所有请求用Reactor(反应堆)�
 - SubReactor负责相应通道的IO读写请求
 - 非IO请求（具体逻辑处理）的任务则会直接写入队列，等待worker threads进行处理
 
-![img](/1.png)
+![img](../../images/1.png)
 
 **事件驱动模型**
 
@@ -65,7 +65,7 @@ Reactor指的是服务器处理请求时，将所有请求用Reactor(反应堆)�
 - 事件通道（event channel）：分发器与处理器之间的联系渠道
 - 事件处理器（event processor）：实现业务逻辑，处理完成后会发出事件，触发下一步操作
 
-![img](/2.png)
+![img](../../images/2.png)
 
 ### 功能特性
 
@@ -163,7 +163,7 @@ ChannelHandler本身并没有提供很多方法，因为这个接口有许多的
 
 下图引用Netty的Javadoc4.1中ChannelPipline的说明，描述了ChannelPipeline中ChannelHandler通常如何处理I/O事件。 I/O事件由ChannelInboundHandler或ChannelOutboundHandler处理，并通过调用ChannelHandlerContext中定义的事件传播方法（例如ChannelHandlerContext.fireChannelRead（Object）和ChannelOutboundInvoker.write（Object））转发到其最近的处理程序。
 
-![img](/3.png)
+![img](../../images/3.png)
 
 入站事件由自下而上方向的入站处理程序处理，如图左侧所示。 入站Handler处理程序通常处理由图底部的I / O线程生成的入站数据。 通常通过实际输入操作（例如SocketChannel.read（ByteBuffer））从远程读取入站数据。
 
@@ -171,7 +171,7 @@ ChannelHandler本身并没有提供很多方法，因为这个接口有许多的
 
 在 Netty 中每个 Channel 都有且仅有一个 ChannelPipeline 与之对应, 它们的组成关系如下:
 
-![img](/4.png)
+![img](../../images/4.png)
 
 一个 Channel 包含了一个 ChannelPipeline, 而 ChannelPipeline 中又维护了一个由 ChannelHandlerContext 组成的双向链表, 并且每个 ChannelHandlerContext 中又关联着一个 ChannelHandler。入站事件和出站事件在一个双向链表中，入站事件会从链表head往后传递到最后一个入站的handler，出站事件会从链表tail往前传递到最前一个出站的handler，两种类型的handler互不干扰。
 
@@ -220,7 +220,7 @@ public static void main(String[] args) {
 
 
 
-![img](/5.png)
+![img](../../images/5.png)
 
 server端包含1个Boss NioEventLoopGroup和1个Worker NioEventLoopGroup，NioEventLoopGroup相当于1个事件循环组，这个组里包含多个事件循环NioEventLoop，每个NioEventLoop包含1个selector和1个事件循环线程。
 
@@ -235,3 +235,42 @@ server端包含1个Boss NioEventLoopGroup和1个Worker NioEventLoopGroup，NioEv
 1. 轮询read、write事件；
 2. 处I/O事件，即read、write事件，在NioSocketChannel可读、可写事件发生时进行处理
 3. 处理任务队列中的任务，runAllTasks。
+
+### 使用Netty实现IO和NIO
+
+```
+public class NettyServer {
+
+    public void server(int port) throws Exception {
+        final ByteBuf buf = Unpooled.unreleasableBuffer(
+                Unpooled.copiedBuffer("Hi!\r\n", Charset.forName("UTF-8")));
+        EventLoopGroup group = new OioEventLoopGroup();
+        //EventLoopGroup group = new NioEventLoopGroup();
+        try {
+            ServerBootstrap b = new ServerBootstrap();        //1
+
+            b.group(group)                                    //2
+             .channel(OioServerSocketChannel.class)
+             //.channel(NioServerSocketChannel.class)
+             .localAddress(new InetSocketAddress(port))
+             .childHandler(new ChannelInitializer<SocketChannel>() {//3
+                 @Override
+                 public void initChannel(SocketChannel ch) 
+                     throws Exception {
+                     ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {            //4
+                         @Override
+                         public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                             ctx.writeAndFlush(buf.duplicate()).addListener(ChannelFutureListener.CLOSE);//5
+                         }
+                     });
+                 }
+             });
+            ChannelFuture f = b.bind().sync();  //6
+            f.channel().closeFuture().sync();
+        } finally {
+            group.shutdownGracefully().sync();        //7
+        }
+    }
+}
+```
+

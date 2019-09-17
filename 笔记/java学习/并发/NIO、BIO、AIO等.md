@@ -36,7 +36,7 @@ typora-root-url: ..\..\images
 
 ##### IO多路复用
 
-![img](640)
+![img](/Figure 1.2 Nonblocking IO.jpg)
 
 多个socket共用线程，监听每个socket的事件，使用select进行选择
 
@@ -59,5 +59,120 @@ typora-root-url: ..\..\images
 
 一个Channel可以和文件或者网络Socket对应 。
 
+### 实现
 
+使用jdk实现IO
+
+```
+public class PlainOioServer {
+
+    public void serve(int port) throws IOException {
+    	//绑定端口到serversocket
+        final ServerSocket socket = new ServerSocket(port);   
+        try {
+            for (;;) {
+            	//阻塞操作：获得clientSocket，接受连接
+                final Socket clientSocket = socket.accept();
+                System.out.println("Accepted connection from " + clientSocket);
+			//创建线程实现业务功能
+                new Thread(new Runnable() {                        
+                    @Override
+                    public void run() {
+                        OutputStream out;
+                        try {
+                            out = clientSocket.getOutputStream();
+                            out.write("Hi!\r\n".getBytes(Charset.forName("UTF-8")));
+                            out.flush();
+                            //消息写入刷新就关闭连接
+                            clientSocket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            try {
+                                clientSocket.close();
+                            } catch (IOException ex) {
+                                // ignore on close
+                            }
+                        }
+                    }
+                }).start();                                        //6
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+使用JDK实现NIO
+
+```
+public class PlainNioServer {
+    public void serve(int port) throws IOException {
+    	//开启Channel，并进行配置
+        ServerSocketChannel serverChannel = ServerSocketChannel.open();
+        serverChannel.configureBlocking(false);
+        ServerSocket ss = serverChannel.socket();
+        InetSocketAddress address = new InetSocketAddress(port);
+        ss.bind(address);          
+        //打开Selector处理channel
+        Selector selector = Selector.open();                        
+        //将channel注册到selector，并指定这是专门用来接受连接。
+        serverChannel.register(selector, SelectionKey.OP_ACCEPT);
+        final ByteBuffer msg = ByteBuffer.wrap("Hi!\r\n".getBytes());
+        for (;;) {
+            try {
+            	//阻塞，直到传入一个连接事件
+                selector.select();                                    
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                // handle exception
+                break;
+            }
+            //获取接收到事件的selectionKeys
+            Set<SelectionKey> readyKeys = selector.selectedKeys();   
+            Iterator<SelectionKey> iterator = readyKeys.iterator();
+            while (iterator.hasNext()) {
+                SelectionKey key = iterator.next();
+                iterator.remove();
+                try {
+                	//检查事件是不是可连接的
+                    if (key.isAcceptable()) {             
+                        ServerSocketChannel server =
+                                (ServerSocketChannel)key.channel();
+                        //处理连接事件，获得客户端连接
+                        SocketChannel client = server.accept();
+                        client.configureBlocking(false);
+                        //接受客户端，注册到selector
+                        client.register(selector, SelectionKey.OP_WRITE |
+                                SelectionKey.OP_READ, msg.duplicate());    
+                        System.out.println(
+                                "Accepted connection from " + client);
+                    }
+                    //检查是否已经准备好写入数据
+                    if (key.isWritable()) {                
+                        SocketChannel client =
+                                (SocketChannel)key.channel();
+                        ByteBuffer buffer =
+                                (ByteBuffer)key.attachment();
+                        //循环写入数据
+                        while (buffer.hasRemaining()) {
+                            if (client.write(buffer) == 0) {        
+                                break;
+                            }
+                        }
+                        client.close();                    //10
+                    }
+                } catch (IOException ex) {
+                    key.cancel();
+                    try {
+                        key.channel().close();
+                    } catch (IOException cex) {
+                        // 在关闭时忽略
+                    }
+                }
+            }
+        }
+    }
+}
+```
 

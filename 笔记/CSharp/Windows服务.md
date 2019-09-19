@@ -11,7 +11,7 @@ System.Security.SecurityException: 未找到源，但未能搜索某些或全部
 
 路径不能带空格
 
-3. ### 安装脚本
+3. ### 安装脚本（需要管理员权限）
 
 ```
 %SystemRoot%\Microsoft.NET\Framework\v4.0.30319\installutil.exe %~dp0\WindowsService1.exe
@@ -22,7 +22,7 @@ echo success to install service!
 pause
 ```
 
-4. ### 卸载脚本
+4. ### 卸载脚本（需要管理员权限）
 
 ```
 %SystemRoot%\Microsoft.NET\Framework\v4.0.30319\installutil.exe %~dp0\WindowsService1.exe -u

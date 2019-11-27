@@ -25,7 +25,7 @@ typora-root-url: ..\..\images
 
 ### NIO（No-Blocking IO）
 
-在BIO中，调用read，如果发现没有数据到达，就会Block；
+在BIO中，调用read，如果发现没有数据到达，。就会Block；
 
 在NIO中，如果没有数据到达，会立刻返回-1，并将errno设置EAGAIN/EWOULDBLOCK。表示等一下在进行尝试，加入轮询队列
 
@@ -108,13 +108,14 @@ public class PlainOioServer {
 ```
 public class PlainNioServer {
     public void serve(int port) throws IOException {
-    	//开启Channel，并进行配置
+    	//开启Channel，并进行配置为非阻塞
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
         serverChannel.configureBlocking(false);
+        // 设置ServerChannel 的ServerSocket, 绑定地址
         ServerSocket ss = serverChannel.socket();
         InetSocketAddress address = new InetSocketAddress(port);
         ss.bind(address);          
-        //打开Selector处理channel
+        //创建一个Selector处理channel
         Selector selector = Selector.open();                        
         //将channel注册到selector，并指定这是专门用来接受连接。
         serverChannel.register(selector, SelectionKey.OP_ACCEPT);

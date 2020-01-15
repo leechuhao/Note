@@ -41,6 +41,13 @@ typora-copy-images-to: ./
 mysql> SHOW TABLE STATUS  FROM W3CSCHOOL;   # 显示数据库 W3CSCHOOL 中所有表的信息
 mysql> SHOW TABLE STATUS from W3CSCHOOL LIKE 'W3Cschool%';     # 表名以W3Cschool开头的表的信息
 mysql> SHOW TABLE STATUS from W3CSCHOOL LIKE 'W3Cschool%'\G;   # 加上 \G，查询结果按列打印
+
+show create table thrombectomy; #查看创建表语句
+show variables like '%character%'; # 查看所有数据库的编码
+show create database test; # 查看数据库的创建语句
+alter database test character set utf8 # 修改数据库的编码类型
+ALTER TABLE thrombectomy CONVERT TO CHARACTER SET utf8; # 修改表的编码类型
+
 ```
 
 #### [MySQL数据类型](https://www.w3cschool.cn/mysql/mysql-data-types.html)

@@ -268,4 +268,87 @@ compareTo 方法是Comparable接口的唯一方法，实现了接口则表明实
 
 我觉得最大的问题是复用，当你一个常量代表的一个意义重复被使用时，你会忘记这个常量原来的意思，不利于看代码和后续的修改（毕竟一个月前的代码自己也不认识了）
 
-这里还提到枚举类型
+这里还提到枚举类型，枚举类型不止能设置常量，如果你的每种类型的行为都与常量相关，可以在枚举里定义抽象方法实现功能（**特定于常量的方法实现**）
+
+```
+public enum Operation{
+    PLUS("+"){ double apply(double x, duoble y){return x+y;}}
+    MINUS("-"){ double apply(double x, duoble y){return x-y;}}
+    TIMES("*"){ double apply(double x, duoble y){return x*y;}}
+    DIVIDE("/"){ double apply(double x, duoble y){return x/y;}}
+   
+   	private final String symbol;
+   	Operation(String symbol){this.symbol = symbol;}
+    abstract double apply(double x, double y);
+}
+```
+
+枚举类型中的抽象方法必须被所有常量的具体方法覆盖，如果新添加的常量不写这个方法会报错
+
+### 31.用实例域替代序数
+
+枚举类型自带一个ordinal 序数，表示常量在枚举中的顺序，但是一定不要使用这个序数来使用枚举，这个数和具体的枚举类型没有任何联系，如果后续出现新的枚举或者改变位置，代码直接废了，全部要检查一遍。
+
+### 32.用EnumSet代替位域
+
+如果一个枚举类型主要用在集合中，一般会用int枚举模式，将2的不同倍数保存为常量
+
+```
+public class Text{
+    public static final int STYLE_BOLD = 1<<0;
+    public static final int STYLE_ITALIC = 1<<1;
+    public static final int STYLE_UNDERLINE = 1<<2;
+    public static final int STYLE_STRIKETHROUCH = 1<<3;
+    
+    public void applyStyles(int styles){ ... }
+}
+	//使用方法
+	text.applyStyles(STYLE_BOLD | STYLE_STRIKETHROUCH);
+```
+
+这种表示法能用OR运算把几个常量合并到一个集合中，称为**位域**。
+
+有个更方便的的EnumSet 类可以实现这个功能
+
+```
+public class Text{
+    public enum Style{BOLD, ITALIC, UNDERLINE, STRIKETHROUCH }
+    
+    public void applyStyles(Set<Style> styles){ ... }
+    //使用方法
+    text.applyStyles(EnumSet.of(Style.BOLD, Style.STRIKETHROUCH));
+}
+```
+
+EnumSet内部使用 单个long 来实现，性能比位域没有低太多，批处理都是利用位算法来实现，但是更安全。
+
+总结一下：这些写的是人话吗？位域就是说将一些不重复的数据用位来记录，方便传递和保存(比如说： 000001001)，每个位表示一个数据。但是这样在遍历等一些复杂操作的时候比较难用，而EnumSet这个类帮你封装好，直接用就行。
+
+吐槽：讲关于位操作的居然没有一个位的表示图出来，是不是看这个书的都是大神，直接脑补位运算的
+
+### 33.用EnumMap代替序数索引
+
+前面都说了不要用ordinal 去写代码，结果这里直接来个用ordinal 做key的map。这里就单纯的推荐使用EnumMap 类
+
+```
+public class Herb{
+    public enum Type{ ANNUAL, PERENNIAL, BIENNIAL }
+    private final String name;
+    private final Type type;
+    
+    Herb(String name, Type type){
+        this.name = name;
+        this.type = type;
+    }
+}
+
+Map<Herb.Type, Set<Herb>> herbsByType = new EnumMap<Herb.Type, Set<Herb>>(Herb.Type.class);
+for(Herb.Type t : Herb.Type.values){
+    herbsByType.put(t, new HashSet<Herb>());
+}
+for(Herb h: garden){
+    herbsByType.get(h.type).add(h);
+}
+```
+
+### 34.用接口模拟可伸缩的枚举
